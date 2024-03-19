@@ -1,18 +1,22 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
 import {StyleSheet, Text, View} from 'react-native';
 import {styled} from 'nativewind';
+import {NavigationContainer} from '@react-navigation/native'; // Import here
 import HomeScreen from './screens/HomeScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import 'react-native-gesture-handler';
+// import Sidebar from './components/shared/Sidebar';
+const Drawer = createDrawerNavigator();
 
-const StyledView = styled(View);
-const StyledText = styled(Text);
 function App(): React.JSX.Element {
   return (
-    <StyledView className="flex items-center justify-center min-h-screen">
-      <StyledText className="text-2xl">Test2</StyledText>
-    </StyledView>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 

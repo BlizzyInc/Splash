@@ -5,10 +5,10 @@ import {styled} from 'nativewind';
 const StyledView = styled(View);
 const StyledText = styled(Text);
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}: any) {
   return (
-    <StyledView className="flex items-center justify-center min-h-screen">
-      <StyledText className="text-2xl">Test</StyledText>
+    <StyledView className="flex items-center justify-center min-h-screen bg-[#6AA3CE]">
+      <StyledText className="text-2xl"></StyledText>
     </StyledView>
   );
 }
