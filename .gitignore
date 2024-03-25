@@ -66,3 +66,6 @@ yarn.lock
 
 # testing
 /coverage
+
+#vscode
+.vscode/
