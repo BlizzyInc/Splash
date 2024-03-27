@@ -13,10 +13,11 @@ interface HomeScreenProps {
   onStart: Function;
 }
 
-export default function HomeScreen({navigation, isActive}: HomeScreenProps) {
-  // Time in minutes
-  const [time, setTime] = useState(0);
-
+export default function HomeScreen({
+  navigation,
+  isActive,
+  onStart,
+}: HomeScreenProps) {
   return (
     <StyledView className="flex items-center">
       <StyledText className="mt-10 text-xl italic text-white">
@@ -27,8 +28,10 @@ export default function HomeScreen({navigation, isActive}: HomeScreenProps) {
         className="self-start mt-10 ml-16"
         source={require('../assets/faucet.png')}
       />
-      <Timer isActive={isActive} time={time} setTime={setTime} />
-      <StyledouchableOpacity className="px-14 py-3 bg-[#578DB7] rounded-full my-5">
+      <Timer isActive={isActive} />
+      <StyledouchableOpacity
+        onPress={() => onStart()}
+        className="px-14 py-3 bg-[#578DB7] rounded-full my-5">
         <StyledText className="text-lg font-bold text-white">
           {isActive ? 'GIVE UP' : 'START'}
         </StyledText>

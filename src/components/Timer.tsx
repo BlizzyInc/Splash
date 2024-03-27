@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Image, View, Text} from 'react-native';
 import {styled} from 'nativewind';
+import {Slider} from '@miblanchard/react-native-slider';
 
 const StyledView = styled(View);
 const StyledImage = styled(Image);
@@ -8,29 +9,41 @@ const StyledText = styled(Text);
 
 type TimerProps = {
   isActive: boolean;
-  time: number;
-  setTime: Function;
 };
 
-export default function Timer({isActive, time, setTime}: TimerProps) {
-  const [timeInMinutes, setTimeInMinutes] = useState(0);
+export default function Timer({isActive}: TimerProps) {
+  // Time in minutes
+  const initialTime = 120 * 60;
+  const [time, setTime] = useState(initialTime);
+  const [formattedTime, setFormattedTime] = useState('00:00');
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (isActive) {
+      interval = setInterval(() => {
+        setTime((minutes: number) => minutes - 1); // Update minutes every second
+      }, 1000);
+    }
+
+    return () => {
+      if (interval) clearInterval(interval);
+      setTime(initialTime);
+    };
+  }, [isActive]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeInMinutes(prevTime => prevTime + 1);
-    }, 60000); // 60000 milliseconds = 1 minute
+    setFormattedTime(formatTime(time));
+  }, [time]);
 
-    return () => clearInterval(interval);
-  }, []);
+  function formatTime(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
 
-  function convertMinutesToHHMM(minutes: number) {
-    const hours = Math.floor(minutes / 60);
-    const remainingMinutes = minutes % 60;
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(remainingMinutes).padStart(2, '0');
-    return `${formattedHours}:${formattedMinutes}`;
+    const formattedMinutes = String(minutes).padStart(2, '0');
+    const formattedSeconds = String(remainingSeconds).padStart(2, '0');
+
+    return `${formattedMinutes}:${formattedSeconds}`;
   }
-  const formattedTime = convertMinutesToHHMM(time);
 
   return (
     <StyledView className="flex items-center gap-10">
