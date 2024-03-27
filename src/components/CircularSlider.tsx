@@ -28,28 +28,28 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
   const [r] = useState<number>((Math.min(width, height) / 2) * 0.85);
 
   const polarToCartesian = (angle: number) => {
-    const a = ((angle - 270) * Math.PI) / 180.0;
+    const a = ((angle - 90) * Math.PI) / 180.0;
     const x = cx + r * Math.cos(a);
     const y = cy + r * Math.sin(a);
     return {x, y};
   };
 
   const cartesianToPolar = (x: number, y: number) => {
-    return (
-      Math.round(
-        (Math.atan2(y - cy, x - cx) * 180) / Math.PI + (x > cx ? 90 : 450),
-      ) % 360
-    );
+    return Math.round((Math.atan2(y - cy, x - cx) * 180) / Math.PI + 90);
   };
 
   const handlePanResponderMove = (
     event: GestureResponderEvent,
     gestureState: PanResponderGestureState,
   ) => {
-    const {dx, dy} = gestureState;
-    console.log('dx:', dx, 'dy:', dy);
-    const angle = cartesianToPolar(dx, dy);
-    console.log('Angle:', angle);
+    const angle = cartesianToPolar(
+      event.nativeEvent.locationX,
+      event.nativeEvent.locationY,
+    );
+    if (angle < 0) {
+      onValueChange(360 + angle);
+      return;
+    }
     onValueChange(angle);
   };
 
@@ -78,7 +78,9 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
         stroke={meterColor}
         strokeWidth={5}
         fill="none"
-        d={`M${startCoord.x} ${startCoord.y} A ${r} ${r} 0 ${value > 180 ? 1 : 0} 1 ${endCoord.x} ${endCoord.y}`}
+        d={`M${startCoord.x} ${startCoord.y} A ${r} ${r} 0 ${
+          value > 180 ? 1 : 0
+        } 1 ${endCoord.x} ${endCoord.y}`}
       />
       <G x={endCoord.x - 7.5} y={endCoord.y - 7.5}>
         <Circle

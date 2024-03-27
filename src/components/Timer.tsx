@@ -17,8 +17,8 @@ export default function Timer({isActive}: TimerProps) {
   const initialTime = 120 * 60;
   const [time, setTime] = useState(initialTime);
   const [formattedTime, setFormattedTime] = useState('00:00');
-  const [value, setValue] = useState(0);
-  const [slider, setSlider] = useState(20);
+  // const [value, setValue] = useState(0);
+  const [slider, setSlider] = useState(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
