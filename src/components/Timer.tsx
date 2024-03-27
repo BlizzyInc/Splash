@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
 import {styled} from 'nativewind';
-import {Slider} from '@miblanchard/react-native-slider';
 import CircularSlider from './CircularSlider';
 
 const StyledView = styled(View);
@@ -17,8 +16,7 @@ export default function Timer({isActive}: TimerProps) {
   const initialTime = 120 * 60;
   const [time, setTime] = useState(initialTime);
   const [formattedTime, setFormattedTime] = useState('00:00');
-  // const [value, setValue] = useState(0);
-  const [slider, setSlider] = useState(0);
+  const [sliderValue, setSliderValue] = useState(0);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -39,6 +37,15 @@ export default function Timer({isActive}: TimerProps) {
     setFormattedTime(formatTime(time));
   }, [time]);
 
+  useEffect(() => {
+    setTime(angleToSeconds(sliderValue));
+  }, [sliderValue]);
+  // Map 0-360 degrees to 0-7200 seconds
+  const angleToSeconds = (angle: number) => {
+    const totalSeconds = (angle / 360) * 7200;
+    return Math.round(totalSeconds);
+  };
+
   function formatTime(seconds: number) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -54,12 +61,18 @@ export default function Timer({isActive}: TimerProps) {
       <View style={styles.container}>
         <View style={styles.slider}>
           <CircularSlider
-            width={200}
-            height={200}
-            meterColor="#0cd"
+            content={
+              <StyledImage
+                className="flex items-center justify-center"
+                source={require('../assets/placeholder.png')}
+              />
+            }
+            width={270}
+            height={270}
+            meterColor="#578DB7"
             textColor="#fff"
-            value={slider}
-            onValueChange={value => setSlider(value)}
+            value={sliderValue}
+            onValueChange={value => setSliderValue(value)}
           />
         </View>
       </View>
@@ -87,8 +100,8 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    width: 200,
-    height: 200,
+    width: 270,
+    height: 270,
   },
   slider: {
     position: 'absolute',

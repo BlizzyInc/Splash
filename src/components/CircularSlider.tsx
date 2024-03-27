@@ -4,7 +4,7 @@ import {
   PanResponderGestureState,
   GestureResponderEvent,
 } from 'react-native';
-import Svg, {Path, Circle, G, Text} from 'react-native-svg';
+import Svg, {Path, Circle, G, Text, Image} from 'react-native-svg';
 
 interface CircularSliderProps {
   width: number;
@@ -13,6 +13,7 @@ interface CircularSliderProps {
   meterColor: string;
   textColor: string;
   onValueChange: (value: number) => void;
+  content: React.ReactNode;
 }
 
 const CircularSlider: React.FC<CircularSliderProps> = ({
@@ -22,6 +23,7 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
   meterColor,
   textColor,
   onValueChange,
+  content,
 }) => {
   const [cx] = useState<number>(width / 2);
   const [cy] = useState<number>(height / 2);
@@ -66,17 +68,12 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
 
   return (
     <Svg width={width} height={height}>
-      <Circle
-        cx={cx}
-        cy={cy}
-        r={r}
-        stroke="#eee"
-        strokeWidth={0.5}
-        fill="none"
-      />
+      <Circle cx={cx} cy={cy} r={r} fill={'#D3B361'} />
+
+      <Circle cx={cx} cy={cy} r={r} stroke="#eee" strokeWidth={8} fill="none" />
       <Path
         stroke={meterColor}
-        strokeWidth={5}
+        strokeWidth={10}
         fill="none"
         d={`M${startCoord.x} ${startCoord.y} A ${r} ${r} 0 ${
           value > 180 ? 1 : 0
@@ -90,15 +87,13 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
           fill={meterColor}
           {...panResponder.panHandlers}
         />
-        <Text
-          key={value + ''}
-          x={7.5}
-          y={1}
-          fontSize={10}
-          fill={textColor}
-          textAnchor="middle">
-          {value + ''}
-        </Text>
+      </G>
+      <G x={cx - 100} y={cy - 80}>
+        <Image
+          href={require('../assets/barrel.png')}
+          width={200}
+          height={200}
+        />
       </G>
     </Svg>
   );
