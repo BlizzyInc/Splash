@@ -67,8 +67,8 @@ export default function Timer({isActive}: TimerProps) {
                 source={require('../assets/placeholder.png')}
               />
             }
-            width={270}
-            height={270}
+            width={300}
+            height={300}
             meterColor="#578DB7"
             textColor="#fff"
             value={sliderValue}
@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    width: 270,
-    height: 270,
+    width: 300,
+    height: 300,
   },
   slider: {
     position: 'absolute',

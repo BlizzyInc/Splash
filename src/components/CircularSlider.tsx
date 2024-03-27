@@ -88,11 +88,11 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
           {...panResponder.panHandlers}
         />
       </G>
-      <G x={cx - 100} y={cy - 80}>
+      <G x={cx - 120} y={cy - 100}>
         <Image
           href={require('../assets/barrel.png')}
-          width={200}
-          height={200}
+          width={240}
+          height={240}
         />
       </G>
     </Svg>
