@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
 import {styled} from 'nativewind';
 import CircularSlider from './CircularSlider';
+import {useTimer} from '../context/TimerContext';
 
 const StyledView = styled(View);
 const StyledImage = styled(Image);
@@ -9,29 +10,49 @@ const StyledText = styled(Text);
 
 type TimerProps = {
   isActive: boolean;
+  setIsActive: Function;
+  onStart: Function;
 };
 
-export default function Timer({isActive}: TimerProps) {
+export default function Timer() {
+  const {isActive, setIsActive} = useTimer();
+
   // Time in minutes
-  const initialTime = 120 * 60;
-  const [time, setTime] = useState(initialTime);
+  // const initialTime = 120 * 60;
+  const [time, setTime] = useState(0);
   const [formattedTime, setFormattedTime] = useState('00:00');
   const [sliderValue, setSliderValue] = useState(0);
+  const [isTimerStopped, setIsTimerStopped] = useState(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
     if (isActive) {
       interval = setInterval(() => {
-        setTime((minutes: number) => minutes - 1); // Update minutes every second
+        setTime((seconds: number) => {
+          if (seconds > 0) {
+            setSliderValue(((seconds - 1) / 7200) * 360);
+            return seconds - 1; // Update seconds every second
+          } else {
+            setIsTimerStopped(true); // Stop the timer
+            if (interval) clearInterval(interval);
+            return seconds;
+          }
+        });
       }, 1000);
     }
-
     return () => {
       if (interval) clearInterval(interval);
-      setTime(initialTime);
+      // setTime(initialTime);
     };
   }, [isActive]);
+
+  useEffect(() => {
+    if (isTimerStopped) {
+      setIsActive(false);
+    }
+    setIsTimerStopped(false);
+  }, [isTimerStopped]);
 
   useEffect(() => {
     setFormattedTime(formatTime(time));
@@ -86,18 +107,6 @@ export default function Timer({isActive}: TimerProps) {
 }
 
 const styles = StyleSheet.create({
-  // container: {
-  //   height: 200,
-  //   width: 300,
-  //   borderRadius: 50,
-  //   transform: [{rotate: '-90deg'}],
-  // },
-  root: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-  },
   container: {
     position: 'relative',
     width: 300,

@@ -69,6 +69,13 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
   return (
     <Svg width={width} height={height}>
       <Circle cx={cx} cy={cy} r={r} fill={'#D3B361'} />
+      <G x={cx - 120} y={cy - 100}>
+        <Image
+          href={require('../assets/barrel.png')}
+          width={240}
+          height={240}
+        />
+      </G>
 
       <Circle cx={cx} cy={cy} r={r} stroke="#eee" strokeWidth={8} fill="none" />
       <Path
@@ -86,13 +93,6 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
           r={10}
           fill={meterColor}
           {...panResponder.panHandlers}
-        />
-      </G>
-      <G x={cx - 120} y={cy - 100}>
-        <Image
-          href={require('../assets/barrel.png')}
-          width={240}
-          height={240}
         />
       </G>
     </Svg>

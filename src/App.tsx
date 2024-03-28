@@ -4,8 +4,10 @@ import HomeScreen from './screens/HomeScreen';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 import CustomDrawerContent from './components/CustomDrawerContent';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import {StyleSheet, TouchableOpacity, View, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import {TimerProvider} from './context/TimerContext';
 
 const Drawer = createDrawerNavigator();
 const MyTheme = {
@@ -17,60 +19,56 @@ const MyTheme = {
 };
 function App(): React.JSX.Element {
   const icons = ['house', 'user', 'cog', 'info-circle'];
-  const [isActive, setIsActive] = useState(false);
-  const onStart = () => {
-    setIsActive(!isActive);
-  };
   return (
-    <NavigationContainer theme={MyTheme}>
-      <Drawer.Navigator
-        initialRouteName="Home"
-        drawerContent={props => (
-          <CustomDrawerContent {...props} icons={icons} />
-        )}
-        screenOptions={{
-          header: navigation => (
-            <View style={styles.headerStyles}>
-              <TouchableOpacity>
-                <Icon
-                  name="bars"
-                  size={30}
-                  color="#000"
-                  onPress={() => navigation.navigation.toggleDrawer()}
-                />
-              </TouchableOpacity>
-              {navigation.route.name === 'Home' ? (
-                <>
-                  <View style={styles.headerMiddleButton}>
-                    <TouchableOpacity>
-                      <Image source={require('./assets/profile.png')} />
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                      <Image source={require('./assets/leaderboard.png')} />
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity>
-                    <Image source={require('./assets/shop.png')} />
-                  </TouchableOpacity>
-                </>
-              ) : null}
-            </View>
-          ),
-        }}>
-        <Drawer.Screen
-          name="Home"
-          options={{
-            drawerStyle: {
-              backgroundColor: '#6AA3CE',
-              paddingTop: 50,
-            },
-          }}>
-          {props => (
-            <HomeScreen {...props} isActive={isActive} onStart={onStart} />
+    <TimerProvider>
+      <NavigationContainer theme={MyTheme}>
+        <Drawer.Navigator
+          initialRouteName="Home"
+          drawerContent={props => (
+            <CustomDrawerContent {...props} icons={icons} />
           )}
-        </Drawer.Screen>
-      </Drawer.Navigator>
-    </NavigationContainer>
+          screenOptions={{
+            header: navigation => (
+              <View style={styles.headerStyles}>
+                <TouchableOpacity>
+                  <Icon
+                    name="bars"
+                    size={30}
+                    color="#000"
+                    onPress={() => navigation.navigation.toggleDrawer()}
+                  />
+                </TouchableOpacity>
+                {navigation.route.name === 'Home' ? (
+                  <>
+                    <View style={styles.headerMiddleButton}>
+                      <TouchableOpacity>
+                        <Image source={require('./assets/profile.png')} />
+                      </TouchableOpacity>
+                      <TouchableOpacity>
+                        <Image source={require('./assets/leaderboard.png')} />
+                      </TouchableOpacity>
+                    </View>
+                    <TouchableOpacity>
+                      <Image source={require('./assets/shop.png')} />
+                    </TouchableOpacity>
+                  </>
+                ) : null}
+              </View>
+            ),
+          }}>
+          <Drawer.Screen
+            name="Home"
+            options={{
+              drawerStyle: {
+                backgroundColor: '#6AA3CE',
+                paddingTop: 50,
+              },
+            }}>
+            {props => <HomeScreen {...props} />}
+          </Drawer.Screen>
+        </Drawer.Navigator>
+      </NavigationContainer>
+    </TimerProvider>
   );
 }
 
