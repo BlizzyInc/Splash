@@ -6,9 +6,6 @@ import {
 } from '@react-navigation/drawer';
 import {Text, View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
-import {styled} from 'nativewind';
-
-const StyledView = styled(View);
 
 interface CustomDrawerContentProps extends DrawerContentComponentProps {
   icons: string[];
@@ -25,10 +22,10 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = ({
         <DrawerItem
           key={index}
           label={() => (
-            <StyledView className="flex flex-row items-center gap-10 ml-">
+            <View style={styles.drawerItem}>
               <Icon name={`${icons[index]}`} size={20} />
-              <Text style={{fontSize: 20}}>{route.name}</Text>
-            </StyledView>
+              <Text style={styles.drawerItemText}>{route.name}</Text>
+            </View>
           )}
           onPress={() => navigation.navigate(route.name)}
         />
@@ -37,6 +34,17 @@ const CustomDrawerContent: React.FC<CustomDrawerContentProps> = ({
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  drawerItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
+  drawerItemText: {
+    fontSize: 20,
+    marginLeft: 10,
+  },
+});
 
 export default CustomDrawerContent;

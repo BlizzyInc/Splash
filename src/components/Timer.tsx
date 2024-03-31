@@ -1,12 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
-import {styled} from 'nativewind';
 import CircularSlider from './CircularSlider';
 import {useTimer} from '../context/TimerContext';
-
-const StyledView = styled(View);
-const StyledImage = styled(Image);
-const StyledText = styled(Text);
 
 type TimerProps = {
   isActive: boolean;
@@ -61,6 +56,7 @@ export default function Timer() {
   useEffect(() => {
     setTime(angleToSeconds(sliderValue));
   }, [sliderValue]);
+
   // Map 0-360 degrees to 0-7200 seconds
   const angleToSeconds = (angle: number) => {
     const totalSeconds = (angle / 360) * 7200;
@@ -78,43 +74,47 @@ export default function Timer() {
   }
 
   return (
-    <StyledView className="flex items-center gap-10">
-      <View style={styles.container}>
-        <View style={styles.slider}>
-          <CircularSlider
-            content={
-              <StyledImage
-                className="flex items-center justify-center"
-                source={require('../assets/placeholder.png')}
-              />
-            }
-            width={300}
-            height={300}
-            meterColor="#578DB7"
-            textColor="#fff"
-            value={sliderValue}
-            onValueChange={value => setSliderValue(value)}
-          />
-        </View>
+    <View style={styles.container}>
+      <View style={styles.slider}>
+        <CircularSlider
+          content={
+            <Image
+              style={styles.image}
+              source={require('../assets/placeholder.png')}
+            />
+          }
+          width={300}
+          height={300}
+          meterColor="#578DB7"
+          textColor="#fff"
+          value={sliderValue}
+          onValueChange={value => setSliderValue(value)}
+        />
       </View>
-
-      {/* <StyledImage source={require('../assets/placeholder.png')} /> */}
-      <StyledText className="text-6xl text-white font-extralight">
-        {formattedTime}
-      </StyledText>
-    </StyledView>
+      <Text style={styles.text}>{formattedTime}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+  },
+  slider: {
     position: 'relative',
     width: 300,
     height: 300,
   },
-  slider: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
+  image: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  text: {
+    fontSize: 60,
+    fontWeight: '200',
+    color: 'white',
   },
 });

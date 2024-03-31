@@ -69,3 +69,5 @@ yarn.lock
 
 #vscode
 .vscode/
+
+test.js

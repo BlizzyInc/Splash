@@ -1,41 +1,62 @@
-import React, {useState} from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
-import {styled} from 'nativewind';
-import Timer from '../components/Timer';
+import React from 'react';
+import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useTimer} from '../context/TimerContext';
+import FaucetIcon from '../assets/FaucetIcon';
+import Timer from '../components/Timer';
 
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyleImage = styled(Image);
-const StyledouchableOpacity = styled(TouchableOpacity);
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  text: {
+    marginTop: 30,
+    fontSize: 20,
+    fontStyle: 'italic',
+    color: 'white',
+  },
+  iconContainer: {
+    alignSelf: 'flex-start',
+    marginTop: 35,
+    marginLeft: '15%',
+  },
+  button: {
+    paddingHorizontal: 50,
+    paddingVertical: 12,
+    backgroundColor: '#578DB7',
+    borderRadius: 50,
+    marginVertical: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+});
+
 interface HomeScreenProps {
   navigation: any;
 }
 
 export default function HomeScreen({navigation}: HomeScreenProps) {
   const {isActive, setIsActive} = useTimer();
+
   const onStart = () => {
     setIsActive(!isActive);
   };
 
   return (
-    <StyledView className="flex items-center">
-      <StyledText className="mt-10 text-xl italic text-white">
+    <View style={styles.container}>
+      <Text style={styles.text}>
         {isActive ? 'Put Down Your Phone' : 'Start Focusing Today'}
-      </StyledText>
-
-      <StyleImage
-        className="self-start mt-10 ml-16"
-        source={require('../assets/faucet.png')}
-      />
+      </Text>
+      <View style={styles.iconContainer}>
+        <FaucetIcon />
+      </View>
       <Timer />
-      <StyledouchableOpacity
-        onPress={() => onStart()}
-        className="px-14 py-3 bg-[#578DB7] rounded-full my-5">
-        <StyledText className="text-lg font-bold text-white">
-          {isActive ? 'GIVE UP' : 'START'}
-        </StyledText>
-      </StyledouchableOpacity>
-    </StyledView>
+      <TouchableOpacity onPress={() => onStart()} style={styles.button}>
+        <Text style={styles.buttonText}>{isActive ? 'GIVE UP' : 'START'}</Text>
+      </TouchableOpacity>
+    </View>
   );
 }

@@ -1,14 +1,30 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native'; // Import here
 import HomeScreen from './screens/HomeScreen';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 import CustomDrawerContent from './components/CustomDrawerContent';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import {StyleSheet, TouchableOpacity, View, Image} from 'react-native';
+import {
+  Easing,
+  useSharedValue,
+  useAnimatedProps,
+  withTiming,
+} from 'react-native-reanimated';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  BackHandler,
+  Animated,
+  Alert,
+  AppState,
+  Linking,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome6';
 import {TimerProvider} from './context/TimerContext';
-
+import ProfileIcon from './assets/ProfileIcon';
+import LeaderboardIcon from './assets/LeaderboardIcon';
+import ShopIcon from './assets/ShopIcon';
 const Drawer = createDrawerNavigator();
 const MyTheme = {
   ...DefaultTheme,
@@ -18,6 +34,25 @@ const MyTheme = {
   },
 };
 function App(): React.JSX.Element {
+  useEffect(() => {
+    const appStateListener = AppState.addEventListener(
+      'change',
+      nextAppState => {
+        if (nextAppState !== 'active') {
+          preventAppSwitch();
+        }
+      },
+    );
+
+    return () => {
+      appStateListener.remove();
+    };
+  }, []);
+
+  const preventAppSwitch = () => {
+    console.log('App Switch Detected');
+  };
+
   const icons = ['house', 'user', 'cog', 'info-circle'];
   return (
     <TimerProvider>
@@ -42,14 +77,22 @@ function App(): React.JSX.Element {
                   <>
                     <View style={styles.headerMiddleButton}>
                       <TouchableOpacity>
-                        <Image source={require('./assets/profile.png')} />
+                        <ProfileIcon />
+                        {/* <Icon
+                          name="user"
+                          solid={true}
+                          color="black"
+                          size={20}
+                        /> */}
                       </TouchableOpacity>
                       <TouchableOpacity>
-                        <Image source={require('./assets/leaderboard.png')} />
+                        <LeaderboardIcon />
+                        {/* <Image source={require('./assets/leaderboard.png')} /> */}
                       </TouchableOpacity>
                     </View>
                     <TouchableOpacity>
-                      <Image source={require('./assets/shop.png')} />
+                      <ShopIcon />
+                      {/* <Image source={require('./assets/shop.png')} /> */}
                     </TouchableOpacity>
                   </>
                 ) : null}

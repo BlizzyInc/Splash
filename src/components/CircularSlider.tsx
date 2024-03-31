@@ -5,6 +5,7 @@ import {
   GestureResponderEvent,
 } from 'react-native';
 import Svg, {Path, Circle, G, Text, Image} from 'react-native-svg';
+import {useTimer} from '../context/TimerContext';
 
 interface CircularSliderProps {
   width: number;
@@ -25,6 +26,7 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
   onValueChange,
   content,
 }) => {
+  const {isActive} = useTimer();
   const [cx] = useState<number>(width / 2);
   const [cy] = useState<number>(height / 2);
   const [r] = useState<number>((Math.min(width, height) / 2) * 0.85);
@@ -87,13 +89,15 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
         } 1 ${endCoord.x} ${endCoord.y}`}
       />
       <G x={endCoord.x - 7.5} y={endCoord.y - 7.5}>
-        <Circle
-          cx={7.5}
-          cy={7.5}
-          r={10}
-          fill={meterColor}
-          {...panResponder.panHandlers}
-        />
+        {!isActive && (
+          <Circle
+            cx={7.5}
+            cy={7.5}
+            r={10}
+            fill={meterColor}
+            {...panResponder.panHandlers}
+          />
+        )}
       </G>
     </Svg>
   );
