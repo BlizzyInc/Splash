@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native'; // Import here
 import HomeScreen from './screens/HomeScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
 import CustomDrawerContent from './components/CustomDrawerContent';
@@ -65,14 +66,17 @@ function App(): React.JSX.Element {
           screenOptions={{
             header: navigation => (
               <View style={styles.headerStyles}>
-                <TouchableOpacity>
-                  <Icon
-                    name="bars"
-                    size={30}
-                    color="#000"
-                    onPress={() => navigation.navigation.toggleDrawer()}
-                  />
-                </TouchableOpacity>
+                {navigation.route.name !== 'Profile' && (
+                  <TouchableOpacity>
+                    <Icon
+                      name="bars"
+                      size={30}
+                      color="#000"
+                      onPress={() => navigation.navigation.toggleDrawer()}
+                   />
+                  </TouchableOpacity>
+                )}
+                
                 {navigation.route.name === 'Home' ? (
                   <>
                     <View style={styles.headerMiddleButton}>
@@ -108,6 +112,16 @@ function App(): React.JSX.Element {
               },
             }}>
             {props => <HomeScreen {...props} />}
+          </Drawer.Screen>
+          <Drawer.Screen
+            name="Profile"
+            component={ProfileScreen}
+            options={{
+              drawerStyle: {
+                backgroundColor: '#6AA3CE',
+                paddingTop: 50,
+              },
+            }}>
           </Drawer.Screen>
         </Drawer.Navigator>
       </NavigationContainer>
