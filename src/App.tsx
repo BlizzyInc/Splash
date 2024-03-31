@@ -73,30 +73,22 @@ function App(): React.JSX.Element {
                       size={30}
                       color="#000"
                       onPress={() => navigation.navigation.toggleDrawer()}
-                   />
+                    />
                   </TouchableOpacity>
                 )}
-                
+
                 {navigation.route.name === 'Home' ? (
                   <>
                     <View style={styles.headerMiddleButton}>
                       <TouchableOpacity>
                         <ProfileIcon />
-                        {/* <Icon
-                          name="user"
-                          solid={true}
-                          color="black"
-                          size={20}
-                        /> */}
                       </TouchableOpacity>
                       <TouchableOpacity>
                         <LeaderboardIcon />
-                        {/* <Image source={require('./assets/leaderboard.png')} /> */}
                       </TouchableOpacity>
                     </View>
                     <TouchableOpacity>
                       <ShopIcon />
-                      {/* <Image source={require('./assets/shop.png')} /> */}
                     </TouchableOpacity>
                   </>
                 ) : null}
@@ -121,8 +113,7 @@ function App(): React.JSX.Element {
                 backgroundColor: '#6AA3CE',
                 paddingTop: 50,
               },
-            }}>
-          </Drawer.Screen>
+            }}></Drawer.Screen>
         </Drawer.Navigator>
       </NavigationContainer>
     </TimerProvider>
