@@ -77,12 +77,6 @@ export default function Timer() {
     <View style={styles.container}>
       <View style={styles.slider}>
         <CircularSlider
-          content={
-            <Image
-              style={styles.image}
-              source={require('../assets/placeholder.png')}
-            />
-          }
           width={300}
           height={300}
           meterColor="#578DB7"

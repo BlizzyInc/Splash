@@ -14,7 +14,6 @@ interface CircularSliderProps {
   meterColor: string;
   textColor: string;
   onValueChange: (value: number) => void;
-  content: React.ReactNode;
 }
 
 const CircularSlider: React.FC<CircularSliderProps> = ({
@@ -24,7 +23,6 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
   meterColor,
   textColor,
   onValueChange,
-  content,
 }) => {
   const {isActive} = useTimer();
   const [cx] = useState<number>(width / 2);
