@@ -1,32 +1,13 @@
 import React, {useEffect} from 'react';
 import {NavigationContainer, DefaultTheme} from '@react-navigation/native'; // Import here
-import HomeScreen from './screens/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import 'react-native-gesture-handler';
-import CustomDrawerContent from './components/CustomDrawerContent';
-import {
-  Easing,
-  useSharedValue,
-  useAnimatedProps,
-  withTiming,
-} from 'react-native-reanimated';
-import {
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  BackHandler,
-  Animated,
-  Alert,
-  AppState,
-  Linking,
-} from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome6';
+import {AppState} from 'react-native';
 import {TimerProvider} from './context/TimerContext';
-import ProfileIcon from './assets/ProfileIcon';
-import LeaderboardIcon from './assets/LeaderboardIcon';
-import ShopIcon from './assets/ShopIcon';
-const Drawer = createDrawerNavigator();
+import {UserDetailsProvider} from './context/UserDetails';
+import {DailyStatsProvider} from './context/DailyStats';
+import {AuthProvider} from './context/AuthContext';
+import AppNavigator from './components/AppNavigator';
+
 const MyTheme = {
   ...DefaultTheme,
   colors: {
@@ -53,97 +34,19 @@ function App(): React.JSX.Element {
   const preventAppSwitch = () => {
     console.log('App Switch Detected');
   };
-
-  const icons = ['house', 'user', 'cog', 'info-circle'];
   return (
-    <TimerProvider>
-      <NavigationContainer theme={MyTheme}>
-        <Drawer.Navigator
-          initialRouteName="Home"
-          drawerContent={props => (
-            <CustomDrawerContent {...props} icons={icons} />
-          )}
-          screenOptions={{
-            header: navigation => (
-              <View style={styles.headerStyles}>
-                {navigation.route.name !== 'Profile' && (
-                  <TouchableOpacity>
-                    <Icon
-                      name="bars"
-                      size={30}
-                      color="#000"
-                      onPress={() => navigation.navigation.toggleDrawer()}
-                    />
-                  </TouchableOpacity>
-                )}
-
-                {navigation.route.name === 'Home' ? (
-                  <>
-                    <View style={styles.headerMiddleButton}>
-                      <TouchableOpacity>
-                        <ProfileIcon />
-                      </TouchableOpacity>
-                      <TouchableOpacity>
-                        <LeaderboardIcon />
-                      </TouchableOpacity>
-                    </View>
-                    <TouchableOpacity>
-                      <ShopIcon />
-                    </TouchableOpacity>
-                  </>
-                ) : null}
-              </View>
-            ),
-          }}>
-          <Drawer.Screen
-            name="Home"
-            options={{
-              drawerStyle: {
-                backgroundColor: '#6AA3CE',
-                paddingTop: 50,
-              },
-            }}>
-            {props => <HomeScreen {...props} />}
-          </Drawer.Screen>
-          <Drawer.Screen
-            name="Profile"
-            component={ProfileScreen}
-            options={{
-              drawerStyle: {
-                backgroundColor: '#6AA3CE',
-                paddingTop: 50,
-              },
-            }}></Drawer.Screen>
-        </Drawer.Navigator>
-      </NavigationContainer>
-    </TimerProvider>
+    <UserDetailsProvider>
+      <AuthProvider>
+        <DailyStatsProvider>
+          <TimerProvider>
+            <NavigationContainer theme={MyTheme}>
+              <AppNavigator />
+            </NavigationContainer>
+          </TimerProvider>
+        </DailyStatsProvider>
+      </AuthProvider>
+    </UserDetailsProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  headerStyles: {
-    backgroundColor: '#6AA3CE',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginTop: 55,
-  },
-  headerMiddleButton: {
-    display: 'flex',
-    borderWidth: 7,
-    borderColor: '#fff',
-    borderRadius: 50,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    overflow: 'hidden',
-    paddingLeft: 14,
-    paddingHorizontal: 5,
-    width: 150,
-    height: 50,
-  },
-});
 
 export default App;

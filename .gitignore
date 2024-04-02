@@ -69,5 +69,10 @@ yarn.lock
 
 #vscode
 .vscode/
+.env
+
+# Firebase
+google-services.json
+secrets.xml
 
 test.js

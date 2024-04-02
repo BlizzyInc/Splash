@@ -1,4 +1,4 @@
-package com.splash
+package com.blizzystudios.splash
 
 import android.app.Application
 import com.facebook.react.PackageList

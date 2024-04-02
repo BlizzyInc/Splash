@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 import {useTimer} from '../context/TimerContext';
 import FaucetIcon from '../assets/FaucetIcon';
 import Timer from '../components/Timer';
+import {useAuthContext} from '../context/AuthContext';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,6 +40,7 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({navigation}: HomeScreenProps) {
+  const {user, signInWithFacebook, signOut} = useAuthContext();
   const {isActive, setIsActive} = useTimer();
 
   const onStart = () => {

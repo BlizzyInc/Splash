@@ -1,4 +1,4 @@
-package com.splash
+package com.blizzystudios.splash
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate
