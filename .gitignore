@@ -74,5 +74,7 @@ yarn.lock
 # Firebase
 google-services.json
 secrets.xml
+BUILD.md
 
+# Testing
 test.js
