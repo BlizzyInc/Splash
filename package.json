@@ -27,12 +27,14 @@
     "react-native-fbsdk-next": "^12.1.4",
     "react-native-gesture-handler": "^2.15.0",
     "react-native-overlay": "^0.5.0",
+    "react-native-paper": "^5.12.3",
     "react-native-reanimated": "^3.8.1",
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.29.0",
     "react-native-svg": "^15.1.0",
     "react-native-vector-icons": "^10.0.3",
-    "react-navigation": "^5.0.0"
+    "react-navigation": "^5.0.0",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
@@ -57,5 +59,6 @@
   },
   "engines": {
     "node": ">=18"
-  }
+  },
+  "packageManager": "pnpm@8.15.6+sha1.8105075ad0aa306138be128c017e9c41e28ecffa"
 }

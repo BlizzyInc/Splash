@@ -7,6 +7,7 @@ import {UserDetailsProvider} from './context/UserDetails';
 import {DailyStatsProvider} from './context/DailyStats';
 import {AuthProvider} from './context/AuthContext';
 import AppNavigator from './components/AppNavigator';
+import {PaperProvider} from 'react-native-paper';
 
 const MyTheme = {
   ...DefaultTheme,
@@ -35,17 +36,19 @@ function App(): React.JSX.Element {
     console.log('App Switch Detected');
   };
   return (
-    <UserDetailsProvider>
-      <AuthProvider>
-        <DailyStatsProvider>
-          <TimerProvider>
-            <NavigationContainer theme={MyTheme}>
-              <AppNavigator />
-            </NavigationContainer>
-          </TimerProvider>
-        </DailyStatsProvider>
-      </AuthProvider>
-    </UserDetailsProvider>
+    <PaperProvider>
+      <UserDetailsProvider>
+        <AuthProvider>
+          <DailyStatsProvider>
+            <TimerProvider>
+              <NavigationContainer theme={MyTheme}>
+                <AppNavigator />
+              </NavigationContainer>
+            </TimerProvider>
+          </DailyStatsProvider>
+        </AuthProvider>
+      </UserDetailsProvider>
+    </PaperProvider>
   );
 }
 

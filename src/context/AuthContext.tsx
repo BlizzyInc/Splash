@@ -9,12 +9,14 @@ import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUserDetails} from './UserDetails';
-
+import {z} from 'zod';
 interface AuthContextProps {
   user: FirebaseAuthTypes.User | null;
   loading: boolean;
   signInWithFacebook: () => Promise<void>;
   signOut: () => Promise<void>;
+  handleLogin: (email: string, password: string) => Promise<void>;
+  handleSignUp: (email: string, password: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -22,6 +24,8 @@ const AuthContext = createContext<AuthContextProps>({
   loading: true,
   signInWithFacebook: async () => {},
   signOut: async () => {},
+  handleLogin: async () => {},
+  handleSignUp: async () => {},
 });
 
 export const useAuthContext = (): AuthContextProps => useContext(AuthContext);
@@ -30,10 +34,22 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6),
+});
+
+type User = z.infer<typeof loginSchema>;
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   const [user, setUser] = useState<FirebaseAuthTypes.User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const {setUserName, setEmail} = useUserDetails();
+
+  type LoginProps = {
+    email: string;
+    password: string;
+  };
 
   useEffect(() => {
     const unsubscribe = auth().onAuthStateChanged(async authUser => {
@@ -98,6 +114,38 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
     }
   };
 
+  // Function to handle user login
+  const handleLogin = async (email: string, password: string) => {
+    try {
+      loginSchema.parse({email, password});
+      const userCredential = await auth().signInWithEmailAndPassword(
+        email,
+        password,
+      );
+      // Login successful, do something with the userCredential
+      console.log('User logged in:', userCredential.user);
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Handle login error
+    }
+  };
+
+  // Function to handle user sign up
+  const handleSignUp = async (email: string, password: string) => {
+    try {
+      loginSchema.parse({email, password});
+      const userCredential = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      // Sign up successful, do something with the userCredential
+      console.log('User signed up:', userCredential.user);
+    } catch (error) {
+      console.error('Sign up failed:', error);
+      // Handle sign up error
+    }
+  };
+
   const signOut = async (): Promise<void> => {
     try {
       await auth().signOut();
@@ -110,7 +158,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   };
 
   return (
-    <AuthContext.Provider value={{user, loading, signInWithFacebook, signOut}}>
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        signInWithFacebook,
+        signOut,
+        handleLogin,
+        handleSignUp,
+      }}>
       {children}
     </AuthContext.Provider>
   );

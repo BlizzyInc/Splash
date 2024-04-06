@@ -4,5 +4,6 @@ module.exports = {
     'nativewind/babel',
     'react-native-reanimated/plugin',
     'module:react-native-dotenv',
+    'react-native-paper/babel',
   ],
 };
