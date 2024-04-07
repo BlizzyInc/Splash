@@ -16,7 +16,11 @@ interface AuthContextProps {
   signInWithFacebook: () => Promise<void>;
   signOut: () => Promise<void>;
   handleLogin: (email: string, password: string) => Promise<void>;
-  handleSignUp: (email: string, password: string) => Promise<void>;
+  handleSignUp: (
+    email: string,
+    password: string,
+    userName: string,
+  ) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -131,17 +135,28 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
   };
 
   // Function to handle user sign up
-  const handleSignUp = async (email: string, password: string) => {
+  const handleSignUp = async (
+    email: string,
+    password: string,
+    userName: string,
+  ) => {
     try {
       loginSchema.parse({email, password});
       const userCredential = await auth().createUserWithEmailAndPassword(
         email,
         password,
       );
+      userCredential.user.updateProfile({
+        displayName: userName,
+      });
       // Sign up successful, do something with the userCredential
       console.log('User signed up:', userCredential.user);
+      setUser(userCredential.user);
+      setUserName(userCredential.user.displayName || userName);
+      setEmail(userCredential.user.email || '');
     } catch (error) {
       console.error('Sign up failed:', error);
+
       // Handle sign up error
     }
   };

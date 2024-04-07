@@ -42,7 +42,6 @@ interface HomeScreenProps {
 export default function HomeScreen({navigation}: HomeScreenProps) {
   const {user, signInWithFacebook, signOut} = useAuthContext();
   const {isActive, setIsActive} = useTimer();
-
   const onStart = () => {
     setIsActive(!isActive);
   };

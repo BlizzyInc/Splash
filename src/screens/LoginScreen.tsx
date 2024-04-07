@@ -7,13 +7,14 @@ import EmailPasswrodInput from '../components/shared/EmailPasswordInput';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userName, setUserName] = useState('');
   const [isSignUp, setIsSignUp] = useState(false);
   const {signInWithFacebook, signOut, handleLogin, handleSignUp} =
     useAuthContext();
 
   const handleLoginOrSignUp = async () => {
     if (isSignUp) {
-      await handleSignUp(email, password);
+      await handleSignUp(email, password, userName);
     } else {
       await handleLogin(email, password);
     }
@@ -23,7 +24,12 @@ const LoginScreen = () => {
       <Logo />
       <Text style={styles.Title}>Splash</Text>
       <View style={styles.logInSection}>
-        <EmailPasswrodInput setEmail={setEmail} setPassword={setPassword} />
+        <EmailPasswrodInput
+          isSignUp={isSignUp}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          setUserName={setUserName}
+        />
         <TouchableOpacity onPress={handleLoginOrSignUp} style={styles.button}>
           <Text style={styles.buttonText}>
             {isSignUp ? 'SIGN UP' : 'LOG IN'}
@@ -36,20 +42,22 @@ const LoginScreen = () => {
             WITH
           </Text>
         </View>
-        <View style={styles.oAuth}>
-          <TouchableOpacity onPress={signInWithFacebook}>
-            <Image
-              source={require('../assets/logos_facebook.png')}
-              style={{width: 50, height: 50}}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Image
-              source={require('../assets/logos_google.png')}
-              style={{width: 50, height: 50}}
-            />
-          </TouchableOpacity>
-        </View>
+        {!isSignUp && (
+          <View style={styles.oAuth}>
+            <TouchableOpacity onPress={signInWithFacebook}>
+              <Image
+                source={require('../assets/logos_facebook.png')}
+                style={{width: 50, height: 50}}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Image
+                source={require('../assets/logos_google.png')}
+                style={{width: 50, height: 50}}
+              />
+            </TouchableOpacity>
+          </View>
+        )}
         <View style={{alignItems: 'flex-start', justifyContent: 'center'}}>
           <View
             style={{flexDirection: 'row', alignItems: 'center', marginTop: 20}}>
