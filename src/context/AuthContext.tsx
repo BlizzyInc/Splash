@@ -10,6 +10,7 @@ import {AccessToken, LoginManager} from 'react-native-fbsdk-next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUserDetails} from './UserDetails';
 import {z} from 'zod';
+import {updateUserData} from '../utils/firestore';
 interface AuthContextProps {
   user: FirebaseAuthTypes.User | null;
   loading: boolean;
@@ -152,8 +153,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({children}) => {
       // Sign up successful, do something with the userCredential
       console.log('User signed up:', userCredential.user);
       setUser(userCredential.user);
-      setUserName(userCredential.user.displayName || userName);
+      setUserName(userName || 'Splash');
       setEmail(userCredential.user.email || '');
+      updateUserData(userCredential.user.uid, {
+        coins: 0,
+        numberOfFriends: 0,
+        totalTime: 0,
+      });
     } catch (error) {
       console.error('Sign up failed:', error);
 

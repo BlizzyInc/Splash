@@ -72,8 +72,8 @@ const CircularSlider: React.FC<CircularSliderProps> = ({
       <G x={cx - 120} y={cy - 100}>
         <Image
           href={require('../assets/barrel.png')}
-          width={240}
-          height={240}
+          width={height / 1.25}
+          height={height / 1.25}
         />
       </G>
 

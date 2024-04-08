@@ -4,7 +4,8 @@ import {useTimer} from '../context/TimerContext';
 import FaucetIcon from '../assets/FaucetIcon';
 import Timer from '../components/Timer';
 import {useAuthContext} from '../context/AuthContext';
-
+import {updateUserData} from '../utils/firestore';
+import {useUserDetails} from '../context/UserDetails';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -40,9 +41,12 @@ interface HomeScreenProps {
 }
 
 export default function HomeScreen({navigation}: HomeScreenProps) {
-  const {user, signInWithFacebook, signOut} = useAuthContext();
+  const {user} = useAuthContext();
   const {isActive, setIsActive} = useTimer();
+  const {setCoins} = useUserDetails();
+
   const onStart = () => {
+    if (isActive && user) setCoins(prevCoins => prevCoins + 1);
     setIsActive(!isActive);
   };
 

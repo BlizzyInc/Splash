@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Image, View, Text, StyleSheet} from 'react-native';
 import CircularSlider from './CircularSlider';
 import {useTimer} from '../context/TimerContext';
+import {Dimensions} from 'react-native';
 
 type TimerProps = {
   isActive: boolean;
@@ -9,6 +10,7 @@ type TimerProps = {
   onStart: Function;
 };
 
+const {width, height} = Dimensions.get('window');
 export default function Timer() {
   const {isActive, setIsActive} = useTimer();
 
@@ -77,8 +79,8 @@ export default function Timer() {
     <View style={styles.container}>
       <View style={styles.slider}>
         <CircularSlider
-          width={300}
-          height={300}
+          width={height / 2.6}
+          height={height / 2.6}
           meterColor="#578DB7"
           textColor="#fff"
           value={sliderValue}
@@ -98,8 +100,8 @@ const styles = StyleSheet.create({
   },
   slider: {
     position: 'relative',
-    width: 300,
-    height: 300,
+    width: height / 2.6,
+    height: height / 2.6,
   },
   image: {
     flex: 1,

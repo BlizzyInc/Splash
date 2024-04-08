@@ -1,5 +1,5 @@
 // UserContext.tsx
-import {createContext, useContext, useState, ReactNode} from 'react';
+import {createContext, useContext, useState, ReactNode, useEffect} from 'react';
 
 const convertTime = (totalMinutes: number) => {
   const days = Math.floor(totalMinutes / (60 * 24));
@@ -15,7 +15,7 @@ type UserContextType = {
   email: string;
   setEmail: (email: string) => void;
   coins: number;
-  setCoins: (coins: number) => void;
+  setCoins: (callback: (prevCoins: number) => number) => void;
   numberOfFriends: number;
   setNumberOfFriends: (numberOfFriends: number) => void;
   totalTime: number;
@@ -39,6 +39,9 @@ export const UserDetailsProvider: React.FC<{children: ReactNode}> = ({
   const [totalTimeString, setTotalTimeString] = useState(
     '0 days, 0 hours, 0 mins',
   );
+  useEffect(() => {
+    setTotalTimeString(convertTime(totalTime));
+  }, [totalTime]);
 
   const value: UserContextType = {
     userName,
@@ -65,3 +68,4 @@ export const useUserDetails = (): UserContextType => {
   }
   return context;
 };
+export {convertTime};

@@ -19,7 +19,6 @@ export default function EmailPasswrodInput({
   const [visibilityIcon, setVisibilityIcon] = useState('visibility-off');
   useEffect(() => {
     setVisibilityIcon(visibility ? 'visibility' : 'visibility-off');
-    console.log(visibility);
   }, [visibility]);
   return (
     <View style={inputStyles.container}>

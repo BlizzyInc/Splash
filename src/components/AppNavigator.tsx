@@ -10,11 +10,26 @@ import LeaderboardIcon from '../assets/LeaderboardIcon';
 import ShopIcon from '../assets/ShopIcon';
 import {useAuthContext} from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
+import {getUserData} from '../utils/firestore';
+import {useUserDetails} from '../context/UserDetails';
 
 const Drawer = createDrawerNavigator();
 
 const AppNavigator = () => {
   const {user} = useAuthContext();
+  const {setCoins} = useUserDetails();
+  useEffect(() => {
+    if (user) {
+      const data = getUserData(user.uid);
+      data
+        .then((res: any) => {
+          setCoins(res.coins);
+        })
+        .catch((err): any => {
+          console.error(err);
+        });
+    }
+  }, [user]);
   const commonDrawerStyles = {
     drawerStyle: {
       backgroundColor: '#6AA3CE',
