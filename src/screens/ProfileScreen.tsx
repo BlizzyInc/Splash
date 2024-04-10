@@ -17,59 +17,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   barIconContainer: {
-    position: 'absolute',
-    top: 10,
-    left: 30,
+    flex: 0,
+    alignSelf: 'flex-start', 
+    marginVertical: '2.5%', 
+    marginHorizontal: '7.5%', 
   },
   userIconContainer: {
-    position: 'absolute',
-    top: 50,
+    marginTop: '-35%',
   },
   rectangle: {
-    alignItems: 'center',
-    width: 269,
-    height: 98,
-    top: 90,
+    width: '70%',
+    marginTop: '10%', 
+    aspectRatio: 2.69, 
     backgroundColor: '#578DB7',
     borderRadius: 20,
-  },
-  smallRectangleContainer: {
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 213,
-  },
-  smallRectangle: {
-    width: 150,
-    height: 50,
-    backgroundColor: '#578DB7',
-    borderRadius: 20,
-    marginLeft: 10,
-  },
-  ShopIconContainer: {
-    position: 'absolute',
-    top: 5,
-    left: 10,
-    opacity: 0.7,
-  },
-  FriendsIconContainer: {
-    position: 'absolute',
-    top: 5,
-    left: 10,
-  },
-  longRectangle: {
-    position: 'absolute',
-    width: 312,
-    height: 50,
-    left: 44,
-    top: 288,
-    backgroundColor: '#578DB7',
-    borderRadius: 20,
-  },
-  timeIconContainer: {
-    position: 'absolute',
-    top: 5,
-    left: 10,
-    opacity: 0.7,
   },
   text1: {
     fontFamily: 'Roboto',
@@ -79,61 +40,92 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     textAlign: 'center',
     color: '#FFFFFF',
-    top: 35,
+    marginTop: '2%', 
+  },
+  smallRectangleContainer: {
+    flexDirection: 'row',
+    marginTop: '10%',
+  },
+  smallRectangle: {
+    flex: 0.41,
+    marginHorizontal: '2%', 
+    backgroundColor: '#578DB7',
+    borderRadius: 20,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   rectangleText: {
-    position: 'absolute',
-    top: 16,
-    left: '73%',
-    transform: [{translateX: -50}],
     color: '#FFFFFF',
     fontSize: 14,
+    position: 'absolute',
+    left: '75%',
+    transform: [{ translateX: -50 }],
+  }, 
+  longRectangle: {
+    width: '80%', 
+    height: 50,
+    marginTop: '5%', 
+    backgroundColor: '#578DB7',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   longRectangleText: {
-    position: 'absolute',
-    top: 16,
-    left: 60,
     color: '#FFFFFF',
     fontSize: 14,
+    top: '20%',
+    marginLeft: '20%',
+    transform: [{ translateX: -50 }],
+  },
+
+  ShopIconContainer: {
+    position: 'relative',
+    marginTop: '2%', 
+    marginLeft: '-55%', 
+    opacity: 0.7,
+  },
+  FriendsIconContainer: {
+    position: 'relative',
+    marginTop: '1%', 
+    marginLeft: '-60%', 
+  },
+  timeIconContainer: {
+    position: 'relative',
+    marginTop: '-6%', 
+    marginLeft: '-80%',
+    opacity: 0.7, 
   },
   line: {
-    position: 'absolute',
-    width: 390,
+    width: '100%', 
     height: 1,
-    top: 365,
     backgroundColor: '#FFFFFF',
+    marginTop: '8%', 
   },
   textContainer: {
-    position: 'absolute',
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    top: 400,
+    marginTop: '5%', 
   },
   text2: {
-    fontFamily: 'Roboto',
-    fontStyle: 'normal',
-    fontWeight: '400',
-    fontSize: 15,
-    lineHeight: 18,
+    flex: 1,
     textAlign: 'center',
     color: '#FFFFFF',
-    marginHorizontal: 40,
+    fontSize: 15,
   },
   iconContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    opacity: 0.7,
-    top: 252,
   },
   icon: {
-    marginHorizontal: 35,
+    marginHorizontal: '10%',
+    marginVertical: '-7%', 
+    opacity: 0.85, 
   },
   waterContainer: {
-    position: 'absolute',
-    top: 366,
+    flexDirection: 'column',
+    marginTop: '-10%',
+    zIndex: -1,
   },
+  
 });
 
 interface ProfileScreenProps {
@@ -149,6 +141,7 @@ export default function ProfileScreen({navigation}: ProfileScreenProps) {
       <View style={styles.barIconContainer}>
         <BarIcon navigation={navigation} />
       </View>
+      
       <View style={styles.rectangle} />
       <View style={styles.userIconContainer}>
         <UserIcon />
@@ -178,26 +171,23 @@ export default function ProfileScreen({navigation}: ProfileScreenProps) {
           <TimeIcon />
         </View>
       </View>
-
       <View style={styles.line} />
-      {/* Water Container */}
-      <View style={styles.waterContainer}>
-        <Water2 />
-        <Water1 />
-      </View>
 
-      {/* Text Container */}
       <View style={styles.textContainer}>
         <Text style={styles.text2}>Today</Text>
         <Text style={styles.text2}>{dailyCoins}</Text>
         <Text style={styles.text2}>{dailyMinutes} mins</Text>
       </View>
 
-      {/* Icon Container */}
       <View style={styles.iconContainer}>
         <ShopIcon style={styles.icon} />
         <TimeIcon style={styles.icon} />
       </View>
-    </View>
+
+      <View style={styles.waterContainer}>
+        <Water2 />
+        <Water1 />
+      </View>
+    </View> 
   );
 }
